@@ -1,0 +1,65 @@
+{
+  "root": "apps/storobs-react-example",
+  "sourceRoot": "apps/storobs-react-example/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "swc",
+        "outputPath": "dist/apps/storobs-react-example",
+        "index": "apps/storobs-react-example/src/index.html",
+        "baseHref": "/",
+        "main": "apps/storobs-react-example/src/main.tsx",
+        "polyfills": "apps/storobs-react-example/src/polyfills.ts",
+        "tsConfig": "apps/storobs-react-example/tsconfig.app.json",
+        "assets": [
+          "apps/storobs-react-example/src/favicon.ico",
+          "apps/storobs-react-example/src/assets"
+        ],
+        "styles": ["apps/storobs-react-example/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/storobs-react-example/src/environments/environment.ts",
+              "with": "apps/storobs-react-example/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "storobs-react-example:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "storobs-react-example:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/storobs-react-example/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

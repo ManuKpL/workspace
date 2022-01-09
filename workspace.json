@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "storobs": "libs/storobs"
+    "storobs": "libs/storobs",
+    "storobs-react-example": "apps/storobs-react-example"
   }
 }
