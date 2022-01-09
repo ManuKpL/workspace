@@ -1,0 +1,33 @@
+{
+  "root": "libs/storobs",
+  "sourceRoot": "libs/storobs/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/storobs",
+        "main": "libs/storobs/src/index.ts",
+        "tsConfig": "libs/storobs/tsconfig.lib.json",
+        "assets": ["libs/storobs/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/storobs/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/storobs"],
+      "options": {
+        "jestConfig": "libs/storobs/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

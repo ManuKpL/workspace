@@ -1,0 +1,9 @@
+{
+  "name": "@manukpl/storobs",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "peerDependencies": {
+    "rxjs": ">= 6.0.0 < 7.5.0",
+    "typescript": ">=4.1.0"
+  }
+}
