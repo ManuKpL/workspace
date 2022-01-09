@@ -1,0 +1,93 @@
+{
+  "projectType": "application",
+  "root": "apps/storobs-angular-example",
+  "sourceRoot": "apps/storobs-angular-example/src",
+  "prefix": "manukpl",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/storobs-angular-example",
+        "index": "apps/storobs-angular-example/src/index.html",
+        "main": "apps/storobs-angular-example/src/main.ts",
+        "polyfills": "apps/storobs-angular-example/src/polyfills.ts",
+        "tsConfig": "apps/storobs-angular-example/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/storobs-angular-example/src/favicon.ico",
+          "apps/storobs-angular-example/src/assets"
+        ],
+        "styles": [
+          "apps/storobs-angular-example/src/styles.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/storobs-angular-example/src/environments/environment.ts",
+              "with": "apps/storobs-angular-example/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "storobs-angular-example:build:production"
+        },
+        "development": {
+          "browserTarget": "storobs-angular-example:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4200
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "storobs-angular-example:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/storobs-angular-example/src/**/*.ts",
+          "apps/storobs-angular-example/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

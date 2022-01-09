@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "storobs": "libs/storobs",
+    "storobs-angular-example": "apps/storobs-angular-example",
     "storobs-react-example": "apps/storobs-react-example"
   }
 }
