@@ -2,6 +2,19 @@
   "name": "@manukpl/storobs",
   "version": "0.0.1",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ManuKpL/workspace.git",
+    "directory": "libs/storobs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "rxjs",
+    "redux",
+    "typescript"
+  ],
   "peerDependencies": {
     "rxjs": ">= 6.0.0 < 7.5.0",
     "typescript": ">=4.1.0"

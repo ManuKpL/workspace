@@ -1,11 +1,23 @@
 # storobs
 
-This library was generated with [Nx](https://nx.dev).
+I.E. Store Observables: simple redux-like store in typescript using rxjs.
 
-## Building
+## Usage
 
-Run `nx build storobs` to build the library.
+### Store setup
 
-## Running unit tests
+```TS
+import { asyncMiddleware, Store } from '@manukpl/storobs';
+import { userReducer } from './reducer';
 
-Run `nx test storobs` to execute the unit tests via [Jest](https://jestjs.io).
+const store = new Store({
+  reducer: userReducer,
+  middlewares: [asyncMiddleware],
+  debugMode: true,
+});
+```
+
+### Full examples
+
+- angular: see [storobs-angular-example/src/app/users](https://github.com/ManuKpL/workspace/tree/main/apps/storobs-angular-example/src/app/users).
+- react: see [storobs-react-example/src/app/users](https://github.com/ManuKpL/workspace/tree/main/apps/storobs-react-example/src/app/users).
