@@ -6,10 +6,9 @@ import { User } from './User';
 const state = new UsersStateService();
 
 const Users: FC = () => {
-  const [showFirstUser, setShowFirstUser] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
   const [users, setUsers] = useState<User[]>([]);
-  const [firstUser, setFistUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,14 +16,16 @@ const Users: FC = () => {
     subscription.add(state.isLoading$.subscribe(setIsLoading));
     subscription.add(state.error$.subscribe(setError));
     subscription.add(state.users$.subscribe(setUsers));
-    subscription.add(state.users$.pipe(map((users) => users[0] ?? null)).subscribe(setFistUser));
-    return subscription.unsubscribe;
+    subscription.add(state.selectedUser$.subscribe(setSelectedUser));
+    return () => subscription.unsubscribe();
   }, []);
 
   const handleLoadUsers = () => {
     state.fetchUsers();
   };
-  const handleShowFirstUser = () => setShowFirstUser((value) => !value);
+  const handleSelectUser = (userId: string) => () => {
+    state.selectUser(userId);
+  };
 
   return (
     <div>
@@ -32,9 +33,21 @@ const Users: FC = () => {
       <button onClick={handleLoadUsers}>Load</button>
       {isLoading && <p>Loading...</p>}
       {error && <p>Error!</p>}
-      <pre>{JSON.stringify(users, null, 2)}</pre>
-      <button onClick={handleShowFirstUser}>{showFirstUser ? 'hide' : 'show'}</button>
-      {showFirstUser && <pre>{JSON.stringify(firstUser, null, 2)}</pre>}
+      {users.map((user) => (
+        <pre
+          key={user.id}
+          style={{ cursor: 'pointer' }}
+          onClick={handleSelectUser(user.id)}
+        >
+          {JSON.stringify(user, null, 2)}
+        </pre>
+      ))}
+      {selectedUser && (
+        <div>
+          <p>Selected user:</p>
+          <pre>{JSON.stringify(selectedUser, null, 2)}</pre>
+        </div>
+      )}
     </div>
   );
 };

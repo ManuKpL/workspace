@@ -1,10 +1,11 @@
 import { noop, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, pluck, scan, shareReplay, startWith, tap } from 'rxjs/operators';
-import { Action } from './Action';
+import { scan, shareReplay, startWith, tap } from 'rxjs/operators';
 import { AnyObject } from '../utils';
+import { Action } from './Action';
 import { Middleware } from './Middleware';
 import { applyMiddlewares } from './middlewares';
 import { Reducer } from './Reducer';
+import { makeStateSelector } from './selectors/createSelector';
 
 type StoreConfig<State extends AnyObject, A extends Action> = {
   reducer: Reducer<State, A>;
@@ -16,9 +17,13 @@ export class Store<State extends AnyObject, A extends Action> {
   private readonly state$: Observable<State>;
   private readonly actions: Subject<A>;
   private readonly middlewares: Middleware<State, A>[] = [];
-  private readonly debugMode: boolean;
+  private readonly debugMode: boolean = false;
 
-  constructor({ reducer, middlewares = [], debugMode = false }: StoreConfig<State, A>) {
+  constructor({
+    reducer,
+    middlewares = [],
+    debugMode = false,
+  }: StoreConfig<State, A>) {
     if (middlewares.length) {
       this.middlewares.push(...middlewares);
     }
@@ -45,8 +50,8 @@ export class Store<State extends AnyObject, A extends Action> {
     this.actions.next(action);
   }
 
-  public select<K extends keyof State>(key: K): Observable<State[K]> {
-    return this.state$.pipe(pluck(key), distinctUntilChanged());
+  public get select() {
+    return makeStateSelector(this.state$);
   }
 
   private debug(message: string): <T>(value: T) => void {

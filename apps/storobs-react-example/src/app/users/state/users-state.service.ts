@@ -1,4 +1,5 @@
 import { asyncMiddleware, Store } from '@manukpl/storobs';
+import { map } from 'rxjs/operators';
 import { UsersService } from '../users.service';
 import { fetchUsers, setUser } from './actions';
 import { userReducer } from './reducer';
@@ -12,8 +13,18 @@ export class UsersStateService {
 
   public readonly users$ = this.store.select('users');
   public readonly isLoading$ = this.store.select('isLoading');
-  public readonly selectedUser$ = this.store.select('selectedUser');
   public readonly error$ = this.store.select('error');
+
+  public readonly selectedUser$ = this.store
+    .select('users', 'selectedUser')
+    .pipe(
+      map(([users, userId]) => {
+        if (!userId) {
+          return null;
+        }
+        return users.find((user) => user.id === userId) ?? null;
+      }),
+    );
 
   constructor(private readonly usersService = new UsersService()) {}
 

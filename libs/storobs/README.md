@@ -2,6 +2,22 @@
 
 Store Observables: simple redux-like store in typescript using rxjs.
 
+## Installation
+
+```SH
+yarn add @manukpl/storobs
+# or
+npm install @manukpl/storobs
+```
+
+A peer dependency for RXJS is required with a version inferior to v7.5.0 for compatibility issues, mainly with the rxjs version currently shipped with angular.
+
+```SH
+yarn add rxjs@7.4.0
+# or
+npm install rxjs@7.4.0
+```
+
 ## Example
 
 ```TS
@@ -44,6 +60,21 @@ To read the state and listen for changes, use the `select()` function with a pro
 
 ```TS
 const isLoading$ = store.select('isLoading');
+```
+
+The `select()` function takes as many keys as needed to combine different part of the code and is able to infer correctly the type for each member up until 10 different keys.
+
+```TS
+const selectedUser$ = this.store
+  .select('users', 'selectedUser')
+  .pipe(
+    map(([users, userId]) => {
+      if (!userId) {
+        return null;
+      }
+      return users.find((user) => user.id === userId) ?? null;
+    }),
+  );
 ```
 
 ### Actions
@@ -166,7 +197,7 @@ The action creator returned by `createAsyncAction()` takes an observable as its 
 
 ### Debug mode
 
-A debug option can be passe to the store upon init to log each emitted action and state change (`console.debug()` might require verbose logging in a browser).
+A debug option can be passed to the store upon init to log each emitted action and state change (`console.debug()` might require verbose logging in a browser).
 
 ```TS
 import { Store } from '@manukpl/storobs';
