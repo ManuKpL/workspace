@@ -1,24 +1,14 @@
-import { FC, useEffect, useState } from 'react';
-import { map, Subscription } from 'rxjs';
+import { useObservableState } from 'observable-hooks';
+import { FC } from 'react';
 import { UsersStateService } from './state/users-state.service';
-import { User } from './User';
 
 const state = new UsersStateService();
 
 const Users: FC = () => {
-  const [error, setError] = useState<unknown>(null);
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const subscription = new Subscription();
-    subscription.add(state.isLoading$.subscribe(setIsLoading));
-    subscription.add(state.error$.subscribe(setError));
-    subscription.add(state.users$.subscribe(setUsers));
-    subscription.add(state.selectedUser$.subscribe(setSelectedUser));
-    return () => subscription.unsubscribe();
-  }, []);
+  const error = useObservableState(state.error$, null);
+  const users = useObservableState(state.users$, []);
+  const selectedUser = useObservableState(state.selectedUser$, null);
+  const isLoading = useObservableState(state.isLoading$, false);
 
   const handleLoadUsers = () => {
     state.fetchUsers();
